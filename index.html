@@ -181,6 +181,25 @@
             .modal { width: 95%; padding: 15px; }
             .modal img { max-width: 80%; }
         }
+        .share-twitter-btn {
+        background-color: #1da1f2;
+        color: white;
+        font-size: 1em;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .share-twitter-btn:hover {
+        background-color: #1a91da;
+        transform: scale(1.05);
+    }
     </style>
 </head>
 <body>
@@ -207,7 +226,7 @@
         <p id="resultText"></p>
         <img id="resultImage" alt="Result Image" style="max-width: 100%; border-radius: 10px; margin-top: 10px;">
         <p id="resultDescription" style="margin-top: 10px; font-size: 0.9em; color: #555;"></p>
-        <button onclick="shareOnTwitter()">Share on Twitter</button>
+        <button class="share-twitter-btn" onclick="shareOnTwitter()">Share on Twitter</button>
     </div>
     
 
@@ -302,7 +321,10 @@
         resultDescription.textContent = data.description || "ไม่มีข้อมูลเกี่ยวกับเมนูนี้";
         resultDescription.style.display = data.description ? "block" : "none";
 
+        // Wait for the image to load before showing the modal
+        resultImage.onload = () => {
         resultModal.classList.add("show");
+    };
 
         // Stop shake animation
         container.style.animation = "none";
@@ -322,7 +344,10 @@
 
         function shareOnTwitter() {
             const resultText = document.getElementById("resultText").textContent;
-            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(resultText)}&hashtags=ShakeSiamese`;
+            const keyword = "Test Ja";
+const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(resultText.trim())}%0A${encodeURIComponent(keyword.trim())}%0A%0A&hashtags=ShakeSiamese`;
+
+
             window.open(twitterUrl, "_blank");
         }
     </script>
